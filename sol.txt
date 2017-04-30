@@ -1,0 +1,36 @@
+6.1
+
+Task 1:
+
+
+
+reldata = load '/home/acadgild/pigintro1' using PigStorage(',') as(year:chararray,occupation:chararray,date:chararray,group:chararray,guestlist:chararray);
+rel1 = foreach reldata generate occupation,date;
+rel2 = foreach rel1 generate occupation,ToDate(date,'mm/dd/yy') as date;
+rel3 = filter rel2 by ((date>ToDate('1/11/99','mm/dd/yy')) and (date<ToDate('6/11/99','mm/dd/yy')));
+rel4 = group rel3 by occupation;
+rel5 = foreach rel4 generate group,COUNT(rel3) as cont;
+rel6 = order rel5 by cont DESC;
+top5 = limit rel6 5;
+dump top5;
+
+
+task2:
+
+
+
+
+
+
+
+reldata2 = load '/home/acadgild/pigintro1' using PigStorage(',') AS (year:chararray,occupation:chararray,date:chararray,group:chararray,guestlist:chararray);
+	
+t21 = foreach reldata2 generate occupation,group;
+	 
+t22 = group t21 by group;
+	
+t23 = foreach t22 generate group,COUNT(t21) as cont;
+	
+d24 = order t23 by cont DESC;
+	
+dump d24;
